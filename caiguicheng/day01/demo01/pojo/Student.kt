@@ -7,7 +7,7 @@ package com.example.demo01.pojo
  * @property age 学生年龄
  * @constructor 创建一个学生对象
  */
-class Student(var name: String, var age: Int) {
+data class Student(var name: String, var age: Int) {
     /**
      * toString()方法为了符合JSON格式重写
      * @return JSON格式信息

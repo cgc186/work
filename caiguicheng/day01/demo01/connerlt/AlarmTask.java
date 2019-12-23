@@ -1,6 +1,8 @@
 package com.example.demo01.connerlt;
 
 import com.example.demo01.dao.StuDao;
+import com.example.demo01.pojo.Student;
+import com.example.demo01.service.StuJson;
 import com.google.gson.JsonElement;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -8,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 @Component
 @EnableScheduling
@@ -26,6 +29,9 @@ public class AlarmTask {
         StuDao st = new StuDao();
         JsonElement je = st.stuList();
         System.out.println(je);
+        //将JSON转为学生对象列表 然后进行输出
+        List<Student> studentList = StuJson.INSTANCE.jsonToList(je);
+        studentList.forEach(System.out::println);
     }
 
     /**

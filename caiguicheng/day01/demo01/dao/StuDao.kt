@@ -13,8 +13,12 @@ class StuDao {
      * @return 返回学生JSON数据
      */
     fun stuList(): JsonElement {
-        var stuArr = Array<String>(4) {
-            Student(it.toString() + "号同学", 20 + it).toString()
+//        var stuArr = Array<String>(4) {
+//            Student(it.toString() + "号同学", 20 + it).toString()
+//        }
+//        return StuJson.getStuList(stuArr)
+        var stuArr = Array<Student>(4) {
+            Student(it.toString() + "号同学", 20 + it)
         }
         return StuJson.getStuList(stuArr)
     }
