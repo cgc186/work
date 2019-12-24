@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo02.dao.IUser">
+    <!--返回数据集合-->
+    <resultMap id="BaseReqult" type="com.example.demo02.entity.User">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column= "appid" property="appid" jdbcType="INTEGER"/>
+        <result column="username" property="username" jdbcType="VARCHAR"/>
+        <result column="passwd" property="passwd" jdbcType="VARCHAR"/>
+        <result column="createtime" property="createtime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <!--显示数据库要查询显示的列-->
+    <sql id="Base_column_list">
+        id,appid,username,passwd,createtime
+    </sql>
+    <!--添加方法(insert)-->
+    <insert id="insertUser" parameterType="com.example.demo02.entity.User">
+        INSERT INTO user (id,appid,username,passwd,createtime)
+        VALUES (
+        #{id,jdbcType=INTEGER},
+        #{appid,jdbcType=INTEGER},
+        #{username,jdbcType=VARCHAR},
+        #{passwd,jdbcType=VARCHAR},
+        #{createtime,jdbcType=TIMESTAMP}
+        )
+    </insert>
+    <!--查询方法-->
+    <select id="getUser" parameterType="com.example.demo02.entity.User" resultMap="BaseReqult">
+        SELECT <include refid="Base_column_list"/> FROM user
+        <where>
+            <if test="appid!=null and appid!=''">
+                AND user.appid=#{appid,jdbcType=VARCHAR}
+            </if>
+            <if test="username!=null and username!=''">
+                user.username LIKE CONCAT(CONCAT('%',#{username,jdbcType=VARCHAR}),'%')
+            </if>
+            <if test="passwd!=null and passwd!=''">
+                user.passwd LIKE CONCAT(CONCAT('%',#{passwd,jdbcType=VARCHAR}),'%')
+            </if>
+        </where>
+    </select>
+    <!--更新方法-->
+    <update id="updateUser" parameterType="com.example.demo02.entity.User">
+        update user
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="appid != null and appid != '' ">
+                appid = #{appid,jdbcType=INTEGER},
+            </if>
+            <if test="username != null and username != '' ">
+                username=#{username,jdbcType=VARCHAR},
+            </if>
+            <if test="passwd != null and passwd != '' ">
+                passwd=#{passwd,jdbcType=VARCHAR},
+            </if>
+            <if test="createtime != null">
+                createtime=#{createtime,jdbcType=TIMESTAMP}
+            </if>
+        </trim>
+        where id = #{id}
+
+    </update>
+    <!--删除方法-->
+    <delete id="deleteUser" parameterType="com.example.demo02.entity.User">
+        DELETE FROM user WHERE id=#{id,jdbcType=INTEGER}
+    </delete>
+</mapper>
