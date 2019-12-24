@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.do.IUser">
+    <!--返回数据结合-->
+    <resultMap id="BaseReqult" type="com.example.demo.entity.User">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column ="appid" property="appid" jdbcType="INTEGER"/>
+        <result column ="username" property="username" jdbcType="VARCHAR"/>
+        <result column ="passwd" property="passwd" jdbcType="VARCHAR"/>
+        <result column ="createtime" property="createtime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <!--显示数据库要查询显示的列-->
+    <sql id="Base_column_list">
+        id,appid,username,passwd,createtime
+    </sql>
+    <!--添加方法-->
+    <insert id="insertUser" parameterType="com.example.demo.entity.User">
+        INSERT INTO user(id,appid,username,passwd,createtime)
+        VALUES (#{id,jdbcType=INTEGER},#{appid,jdbcType=INTEGER},#{username,jdbcType=VARCHAR}
+        ,#{passwd,jdbcType=VARCHAR},#{createtime,jdbcType=TIMESTAMP})
+    </insert>
+    <!--更新方法-->
+    <update id="updateUser" parameterType="com.example.demo.entity.User">
+        UPDATE  user set 
+            appid=#{appid,jdbcType=INTEGER},username=#{username,jdbcType=VARCHAR},passwd=#{passwd,jdbcType=VARCHAR},createtime=#{createtime,jdbcType=TIMESTAMP}
+            where id=#{id,jdbcType=INTEGER}
+    </update>
+    <!--查询方法-->
+    <select id ="getAll" parameterType="com.example.demo.entity.Usser" resultMap="
+BaseReqult">
+        SELECT <include refid="Base_column_list"/>from user
+    </select>
+    <!--删除方法-->
+    <delete id="deleteUser" parameterType="com.example.demo.entity.User">
+        DELETE FROM user where id=#{id,jdbcType=INTEGER}
+    </delete>
+
+</mapper>
