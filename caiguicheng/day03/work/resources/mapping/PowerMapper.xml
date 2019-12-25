@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.example.demo03work.dao.IPower">
+    <!--结果集-->
+    <resultMap id="BaseReqult" type="com.example.demo03work.entity.Power">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="powername" property="powername" jdbcType="VARCHAR"/>
+        <result column="url" property="url" jdbcType="VARCHAR"/>
+        <result column="pagename" property="pagename" jdbcType="VARCHAR"/>
+        <result column="editname" property="editname" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--搜索内容-->
+    <sql id="Base_column_list">
+        id,powername,url,pagename,editname
+    </sql>
+
+    <!--插入角色-->
+    <insert id="insertPower" parameterType="com.example.demo03work.entity.Power">
+        INSERT INTO t_power(id,powername,url,pagename,editname)
+        VALUES (
+            #{id,jdbcType=INTEGER},
+            #{powername,jdbcType=VARCHAR},
+            #{url,jdbcType=VARCHAR},
+            #{pagename,jdbcType=VARCHAR},
+            #{editname,jdbcType=VARCHAR} )
+    </insert>
+
+    <!--删除角色-->
+    <delete id="deletePower" parameterType="java.lang.Integer">
+        DELETE FROM t_power WHERE id=#{id}
+    </delete>
+
+    <!--根据不同的条件获取角色-->
+    <select id="selectPower" parameterType="com.example.demo03work.entity.Power" resultMap="BaseReqult">
+        SELECT <include refid="Base_column_list"/> FROM t_power
+        <where>
+            <if test="id!=null and id!=''">
+                id = #{id}
+            </if>
+            <if test="powername!=null and powername!=''">
+                AND powername = #{powername}
+            </if>
+            <if test="url!=null and url!=''">
+                AND url = #{url}
+            </if>
+            <if test="pagename!=null and pagename!=''">
+                AND pagename = #{pagename}
+            </if>
+            <if test="editname!=null and editname!=''">
+                AND editname = #{editname}
+            </if>
+        </where>
+    </select>
+
+    <!--根据用户id更新角色信息-->
+    <!--只修改非空-->
+    <update id="updatePower" parameterType="com.example.demo03work.entity.Power">
+        update t_power
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="powername != null and powername != '' ">
+                powername=#{powername,jdbcType=VARCHAR},
+            </if>
+            <if test="url != null and url != '' ">
+                remark=#{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="pagename != null and pagename != '' ">
+                rolename=#{rolename,jdbcType=VARCHAR},
+            </if>
+            <if test="editname != null and editname != '' ">
+                editname=#{editname,jdbcType=VARCHAR},
+            </if>
+        </trim>
+        where id = #{id}
+    </update>
+</mapper>
