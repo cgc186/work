@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo02.dao.IRole">
+	<!--返回数据集合-->
+	<resultMap id="BaseReqult" type="com.example.demo02.entity.Role">
+		<id column="rid" property="rid" jdbcType="INTEGER"/>
+		<result column= "rolename" property="rolename" jdbcType="VARCHAR"/>
+		<result column="remarks" property="remarks" jdbcType="VARCHAR"/>
+	</resultMap>
+	<!--显示数据库要查询显示的列-->
+	<sql id="Base_column_list">
+        rid,rolename,remarks
+    </sql>
+	<!--添加方法(insert)-->
+	<insert id="insertRole" parameterType="com.example.demo02.entity.Role">
+        INSERT INTO role (rid,rolename,remarks)
+        VALUES (
+        #{rid,jdbcType=INTEGER},
+        #{rolename,jdbcType=VARCHAR},
+        #{remarks,jdbcType=VARCHAR}
+        )
+    </insert>
+	<!--查询方法-->
+	<select id="getRole" parameterType="com.example.demo02.entity.Role" resultMap="BaseReqult">
+		SELECT <include refid="Base_column_list"/> FROM role
+		<where>
+			<if test="rolename!=null and rolename!=''">
+				role.rolename LIKE CONCAT(CONCAT('%',#{rolename,jdbcType=VARCHAR}),'%')
+			</if>
+			<if test="remarks!=null and remarks!=''">
+				user.remarks LIKE CONCAT(CONCAT('%',#{remarks,jdbcType=VARCHAR}),'%')
+			</if>
+		</where>
+	</select>
+	<select id="getRolebyname"  resultType="int">
+		select count(1) from role
+		where rolename =#{rolename}
+		<if test="rid!=null and rid!=''">
+			and rid!=#{rid}
+		</if>
+	</select>
+	<!--更新方法-->
+	<update id="updateRole" parameterType="com.example.demo02.entity.Role">
+		update role
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="rolename != null and rolename != '' ">
+				rolename=#{rolename,jdbcType=VARCHAR},
+			</if>
+			<if test="remarks != null and remarks != '' ">
+				remarks=#{remarks,jdbcType=VARCHAR},
+			</if>
+		</trim>
+		where rid = #{rid}
+
+	</update>
+	<!--删除方法-->
+	<delete id="deleteRole" parameterType="com.example.demo02.entity.Role">
+        DELETE FROM role WHERE rid=#{rid,jdbcType=INTEGER}
+    </delete>
+</mapper>

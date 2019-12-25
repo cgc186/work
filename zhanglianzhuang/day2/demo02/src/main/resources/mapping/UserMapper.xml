@@ -5,7 +5,7 @@
 <mapper namespace="com.example.demo02.dao.IUser">
     <!--返回数据集合-->
     <resultMap id="BaseReqult" type="com.example.demo02.entity.User">
-        <id column="id" property="id" jdbcType="INTEGER"/>
+        <id column="uid" property="uid" jdbcType="INTEGER"/>
         <result column= "appid" property="appid" jdbcType="INTEGER"/>
         <result column="username" property="username" jdbcType="VARCHAR"/>
         <result column="passwd" property="passwd" jdbcType="VARCHAR"/>
@@ -17,9 +17,9 @@
     </sql>
     <!--添加方法(insert)-->
     <insert id="insertUser" parameterType="com.example.demo02.entity.User">
-        INSERT INTO user (id,appid,username,passwd,createtime)
+        INSERT INTO user (uid,appid,username,passwd,createtime)
         VALUES (
-        #{id,jdbcType=INTEGER},
+        #{uid,jdbcType=INTEGER},
         #{appid,jdbcType=INTEGER},
         #{username,jdbcType=VARCHAR},
         #{passwd,jdbcType=VARCHAR},
@@ -58,11 +58,11 @@
                 createtime=#{createtime,jdbcType=TIMESTAMP}
             </if>
         </trim>
-        where id = #{id}
+        where uid = #{uid}
 
     </update>
     <!--删除方法-->
     <delete id="deleteUser" parameterType="com.example.demo02.entity.User">
-        DELETE FROM user WHERE id=#{id,jdbcType=INTEGER}
+        DELETE FROM user WHERE uid=#{uid,jdbcType=INTEGER}
     </delete>
 </mapper>

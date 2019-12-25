@@ -2,18 +2,18 @@ package com.example.demo02.entity;
 import java.util.Date;
 
 public class User {
-	private int id;
+	private int uid;
 	private int appid;
 	private String username;
 	private String passwd;
 	@org.springframework.format.annotation.DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date createtime;
 	public int getId() {
-		return id;
+		return uid;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	public void setId(int uid) {
+		this.uid = uid;
 	}
 
 	public int getAppid() {
