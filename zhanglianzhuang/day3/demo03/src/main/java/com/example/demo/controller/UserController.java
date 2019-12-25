@@ -19,7 +19,7 @@ import java.util.List;
  * 编写时间：2019年12月25日
  * 修改时间
  */
-@Api(tags = "user")
+@Api(tags = "User")
 @RestController
 @EnableSwagger2
 public class UserController {
@@ -28,17 +28,22 @@ public class UserController {
 	@ApiOperation(value = "用户添加")
 	@GetMapping("/addUser")
 	public int AddUser(User user){
-		if (user!=null){
-			if(user.getId()!=0){
-				return userMapper.insertUser(user);
-			}
-			else {
-				System.out.println("用户id不能为空!");
+		List<User>users=getUserbyname(user);
+		if (users.size()==0) {
+			if (user != null) {
+				if (user.getId() != 0) {
+					return userMapper.insertUser(user);
+				} else {
+					System.out.println("用户id不能为空!");
+				}
 			}
 		}
-
+		else {
+			System.out.println("用户名已存在");
+		}
 		return 0;
 	}
+
 	@ApiOperation("查询所有的数据")
 	@GetMapping("/getUser")
 	public List<User> getUser(User user){
@@ -71,5 +76,8 @@ public class UserController {
 			}
 		}
 		return 0;
+	}
+	public List<User> getUserbyname(User user){
+		return userMapper.getUserbyname(user);
 	}
 }

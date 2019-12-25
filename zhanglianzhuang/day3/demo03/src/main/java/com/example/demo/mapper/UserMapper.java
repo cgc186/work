@@ -14,12 +14,19 @@ import java.util.List;
 
 @Mapper
 public interface UserMapper {
-	@Insert("insert into user(id,appid,username,passwd,createtime)values(#{id},#{appid},#{username},#{passwd},#{createtime})")
+	//插入用户信息
+	@Insert("insert into user(uid,appid,username,passwd,createtime)values(#{uid},#{appid},#{username},#{passwd},#{createtime})")
 	public int insertUser(User user);
-	@Select("select id,appid,username,passwd,createtime from user")
+	//指定用户名查询
+	@Select("select uid,appid,username,passwd,createtime from user where username=#{username}")
+	public List<User> getUserbyname(User user);
+	//用户名模糊查询
+	@Select("select uid,appid,username,passwd,createtime from user where username like CONCAT('%',#{username},'%')")
 	public List<User> getUser(User user);
-	@Update("update user set appid=#{appid},username=#{username},passwd=#{passwd},createtime=#{createtime} where id=#{id}")
+	//更新用户信息
+	@Update("update user set appid=#{appid},username=#{username},passwd=#{passwd},createtime=#{createtime} where uid=#{uid}")
 	public int updateUser(User user);
-	@Delete("delete from user where id=#{id} or username=#{username} or appid=#{appid}")
+	//删除用户信息
+	@Delete("delete from user where uid=#{uid} or username=#{username} or appid=#{appid}")
 	public int deleteUser(User user);
 }
