@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mapper>
+    <!--插入用户信息-->
+    <insert id="insertUser" parameterType="com.example.demo.entity.User">
+        INSERT INTO user(id,appid,username,passwd,create)
+        VALUES(#{id,jdbcType=INTEGER},#{appid,jdbcType=INTEGER},#{usernsme,jdbcType=VARCHAR}
+        ,#{passwd,jdbcType=VARCHAR},#{createtime,jdbcType=TIMESTAMP})
+    </insert>
+
+    <!--返回数据集合-->
+    <resultMap type="com.example.demo.entity.User" id="BaseResult">
+        <id property="id" column="id" jdbcType="INTEGER"/>
+        <result property="appid" column="appid" jdbcType="INTEGER"/>
+        <result property="username" column="username" jdbcType="VARCHAR"/>
+        <result property="passwd" column="passwd" jdbcType="VARCHAR"/>
+        <result property="createtime" column="createtime"jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <!--显示数据库要查询显示的列-->
+    <sql id="Base_colunm_list">
+        id,appid,username,passwd,createtime
+    </sql>
+    <!-- 查询方法-->
+    <select id="getAll" parameterType="com.example.demo.entity.User"  resultMap="BaseResult">
+        SELECT<include refid="Base_colum_list"/>from user
+    </select>
+</mapper>
+

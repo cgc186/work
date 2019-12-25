@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.example.demo02.dao.IUser">
+    <!--结果集-->
+    <resultMap id="BaseReqult" type="com.example.demo02.entity.User">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="appid" property="appid" jdbcType="INTEGER"/>
+        <result column="username" property="username" jdbcType="VARCHAR"/>
+        <result column="passwd" property="passwd" jdbcType="VARCHAR"/>
+        <result column="createTime" property="createTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!--搜索内容-->
+    <sql id="Base_column_list">
+        id,appid,username,passwd,createTime
+    </sql>
+
+    <!--插入用户-->
+    <insert id="insertUser" parameterType="com.example.demo02.entity.User">
+        INSERT INTO user(id, appid, username, passwd, createTime)
+        VALUES (
+            #{id,jdbcType= INTEGER},
+            #{appid,jdbcType=INTEGER},
+            #{username,jdbcType=VARCHAR},
+            #{passwd,jdbcType=VARCHAR},
+            #{createTime,jdbcType=TIMESTAMP} )
+    </insert>
+
+    <!--删除用户-->
+    <delete id="deleteUser" parameterType="java.lang.Integer">
+        DELETE FROM user WHERE id=#{id}
+    </delete>
+
+    <!--根据不同的条件获取用户-->
+    <!--这里时间的条件不适用,时间应用范围进行查询-->
+    <select id="selectUser" parameterType="com.example.demo02.entity.User" resultMap="BaseReqult">
+        SELECT <include refid="Base_column_list"/> FROM user
+        <where>
+            <if test="id!=null and id!=''">
+                id = #{id}
+            </if>
+            <if test="appid!=null and appid!='' ">
+                AND appid = #{appid}
+            </if>
+            <if test="username!=null and username!=''">
+                AND username = #{username}
+            </if>
+            <if test="passwd!=null and passwd!=''">
+                AND passwd = #{passwd}
+            </if>
+            <if test="createTime!=null">
+                AND createTime = #{createTime}
+            </if>
+        </where>
+    </select>
+
+    <!--根据用户id更新用户信息-->
+    <!--只修改非空-->
+    <update id="updateUser" parameterType="com.example.demo02.entity.User">
+        update user
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="appid != null and appid != '' ">
+                appid = #{appid,jdbcType=INTEGER},
+            </if>
+            <if test="username != null and username != '' ">
+                username=#{username,jdbcType=VARCHAR},
+            </if>
+            <if test="passwd != null and passwd != '' ">
+                passwd=#{passwd,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                createTime=#{createTime,jdbcType=TIMESTAMP}
+            </if>
+        </trim>
+        where id = #{id}
+    </update>
+</mapper>
