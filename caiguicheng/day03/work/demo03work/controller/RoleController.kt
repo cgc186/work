@@ -1,6 +1,7 @@
 package com.example.demo03work.controller
 
 import com.example.demo03work.entity.Role
+import com.example.demo03work.entity.RoleNum
 import com.example.demo03work.entity.User
 import com.example.demo03work.service.RoleService
 import com.example.demo03work.service.UserService
@@ -21,7 +22,6 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2
 @Api(tags = ["role"])
 @RestController
 @EnableSwagger2
-@MapperScan("com.example.demo03work.dao")
 class RoleController {
 
     //使用时候创建
@@ -45,7 +45,7 @@ class RoleController {
 
     /**
      * 根据条件获得用户
-     * @return 符合条件的用户列表
+     * @return 符合条件的角色列表
      */
     @ApiOperation("查找角色信息")
     @PostMapping("/selectRole")
@@ -53,6 +53,16 @@ class RoleController {
 //        println("time")
 //        println(role.id)
         return roleService.selectRole(role)
+    }
+
+    /**
+     * 显示列表
+     * @return 角色列表
+     */
+    @ApiOperation("查找角色信息")
+    @PostMapping("/getList")
+    fun getRoleNumber(): List<RoleNum> {
+        return roleService.getRoleNumber()
     }
 
     @ApiOperation("修改角色信息")

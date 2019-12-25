@@ -4,7 +4,7 @@ import com.example.demo03work.entity.Power
 import org.apache.ibatis.annotations.Mapper
 
 /**
- * 角色作接口类
+ * 权限操作接口类
  */
 @Mapper
 interface IPower {

@@ -1,7 +1,10 @@
 package com.example.demo03work.service
 
 import com.example.demo03work.entity.Role
+import com.example.demo03work.entity.RoleNum
+import com.example.demo03work.entity.User
 import org.apache.ibatis.annotations.Mapper
+import java.util.*
 
 @Mapper
 interface RoleService {
@@ -22,6 +25,11 @@ interface RoleService {
      * @return 用户列表
      */
     fun selectRole(role: Role):List<Role>
+
+    /**
+     *
+     */
+    fun getRoleNumber():List<RoleNum>
 
     /**
      * 删除角色

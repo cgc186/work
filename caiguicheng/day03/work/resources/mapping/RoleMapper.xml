@@ -11,6 +11,11 @@
         <result column="remark" property="remark" jdbcType="VARCHAR"/>
     </resultMap>
 
+    <resultMap id="roleNumReqult" type="com.example.demo03work.entity.RoleNum">
+        <id column="rolename" property="rolename" jdbcType="VARCHAR"/>
+        <result column="number" property="number" jdbcType="INTEGER"/>
+    </resultMap>
+
     <!--搜索内容-->
     <sql id="Base_column_list">
         id,rolename,remark
@@ -38,12 +43,20 @@
                 id = #{id}
             </if>
             <if test="rolename!=null and rolename!=''">
-                AND rolename = #{rolename}
+                AND rolename LIKE CONCAT(CONCAT('%',#{rolename}),'%')
             </if>
             <if test="remark!=null and remark!=''">
                 AND remark = #{remark}
             </if>
         </where>
+    </select>
+
+    <!--角色列表-->
+    <select id="getRoleNumber" resultMap="roleNumReqult">
+        SELECT r.rolename as rolename,count(ur.uid) as number
+        FROM t_role r
+         join t_user_role ur on r.id = ur.rid
+        group by r.rolename
     </select>
 
     <!--根据用户id更新角色信息-->

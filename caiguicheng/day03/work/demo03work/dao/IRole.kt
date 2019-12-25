@@ -1,10 +1,11 @@
 package com.example.demo03work.dao
 
 import com.example.demo03work.entity.Role
+import com.example.demo03work.entity.RoleNum
 import org.apache.ibatis.annotations.Mapper
 
 /**
- * 角色作接口类
+ * 角色操作接口类
  */
 @Mapper
 interface IRole {
@@ -25,6 +26,11 @@ interface IRole {
      * @return 用户列表
      */
     fun selectRole(role: Role):List<Role>
+
+    /**
+     *
+     */
+    fun getRoleNumber():List<RoleNum>
 
     /**
      * 删除角色

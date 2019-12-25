@@ -1,6 +1,8 @@
 package com.example.demo03work.controller
 
+import com.example.demo03work.entity.Order
 import com.example.demo03work.entity.User
+import com.example.demo03work.entity.UserData
 import com.example.demo03work.service.UserService
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
@@ -19,7 +21,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2
 @Api(tags = ["user"])
 @RestController
 @EnableSwagger2
-@MapperScan("com.example.demo03work.dao")
+//@MapperScan("com.example.demo03work.dao")
 class UserController {
 
     //使用时候创建
@@ -53,11 +55,39 @@ class UserController {
         return userService.selectUser(user)
     }
 
+    /**
+     * 姓名模糊查询
+     * @return 符合条件的用户列表
+     */
+    @ApiOperation("查找用户信息")
+    @PostMapping("/selectUserByName")
+    fun selectUserByName(name: String): List<User> {
+        return userService.selectUserByName(name)
+    }
+
+    /**
+     * 时间区间查询
+     * @return 符合条件的用户列表
+     */
+    @ApiOperation("查找用户信息")
+    @PostMapping("/selectUserByTime")
+    fun selectUserByName(time: Order): List<User> {
+        return userService.selectUserByTime(time)
+    }
+
+    /**
+     * 显示用户信息列表
+     * @return 用户列表
+     */
+    @ApiOperation("显示用户信息列表")
+    @PostMapping("/getUserList")
+    fun getUserList(): List<UserData> {
+        return userService.getUserList()
+    }
+
     @ApiOperation("修改用户信息")
     @PostMapping("/updateUser")
     fun updateUser(user: User): Int {
         return userService.updateUser(user)
     }
-
-
 }
