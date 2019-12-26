@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.example.demo03work.dao.IPermission">
+    <!--结果集-->
+    <resultMap id="BaseReqult" type="com.example.demo03work.entity.Permission">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="permissionname" property="permissionname" jdbcType="VARCHAR"/>
+        <result column="url" property="url" jdbcType="VARCHAR"/>
+        <result column="pagename" property="pagename" jdbcType="VARCHAR"/>
+        <result column="editname" property="editname" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--搜索内容-->
+    <sql id="Base_column_list">
+        id,permissionname,url,pagename,editname
+    </sql>
+
+    <!--插入角色-->
+    <insert id="insertPermission" parameterType="com.example.demo03work.entity.Permission">
+        INSERT INTO t_permission(id,permissionname,url,pagename,editname)
+        VALUES (
+            #{id,jdbcType=INTEGER},
+            #{permissionname,jdbcType=VARCHAR},
+            #{url,jdbcType=VARCHAR},
+            #{pagename,jdbcType=VARCHAR},
+            #{editname,jdbcType=VARCHAR} )
+    </insert>
+
+    <!--删除角色-->
+    <delete id="deletePermission" parameterType="java.lang.Integer">
+        DELETE FROM t_permission WHERE id=#{id}
+    </delete>
+
+    <!--根据不同的条件获取角色-->
+    <select id="selectPermission" parameterType="com.example.demo03work.entity.Permission" resultMap="BaseReqult">
+        SELECT <include refid="Base_column_list"/> FROM t_permission
+        <where>
+            <if test="id!=null and id!=''">
+                id = #{id}
+            </if>
+            <if test="permissionname!=null and permissionname!=''">
+                AND permissionname = #{permissionname}
+            </if>
+            <if test="url!=null and url!=''">
+                AND url = #{url}
+            </if>
+            <if test="pagename!=null and pagename!=''">
+                AND pagename = #{pagename}
+            </if>
+            <if test="editname!=null and editname!=''">
+                AND editname = #{editname}
+            </if>
+        </where>
+    </select>
+
+    <!--根据用户id更新角色信息-->
+    <!--只修改非空-->
+    <update id="updatePermission" parameterType="com.example.demo03work.entity.Permission">
+        update t_permission
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="permissionname != null and permissionname != '' ">
+                permissionname=#{permissionname,jdbcType=VARCHAR},
+            </if>
+            <if test="url != null and url != '' ">
+                remark=#{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="pagename != null and pagename != '' ">
+                rolename=#{rolename,jdbcType=VARCHAR},
+            </if>
+            <if test="editname != null and editname != '' ">
+                editname=#{editname,jdbcType=VARCHAR},
+            </if>
+        </trim>
+        where id = #{id}
+    </update>
+</mapper>

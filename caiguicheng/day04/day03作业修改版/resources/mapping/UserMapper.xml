@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.example.demo03work.dao.IUser">
+    <!--结果集-->
+    <resultMap id="BaseReqult" type="com.example.demo03work.entity.User">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="username" property="username" jdbcType="VARCHAR"/>
+        <result column="passwd" property="passwd" jdbcType="VARCHAR"/>
+        <result column="email" property="email" jdbcType="VARCHAR"/>
+        <result column="createTime" property="createTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!--结果集-->
+    <resultMap id="UserListReqult" type="com.example.demo03work.entity.UserData">
+        <id column="username" property="username" jdbcType="VARCHAR"/>
+        <result column="passwd" property="passwd" jdbcType="VARCHAR"/>
+        <result column="email" property="email" jdbcType="VARCHAR"/>
+        <result column="createTime" property="createTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!--搜索内容-->
+    <sql id="Base_column_list">
+        id,username,passwd,email,createTime
+    </sql>
+
+    <sql id="UserList">
+        username,passwd,email,createTime
+    </sql>
+
+    <!--插入用户-->
+    <insert id="insertUser" parameterType="com.example.demo03work.entity.User">
+        INSERT INTO t_user(id,username, passwd, email, createTime)
+        VALUES (
+            #{id,jdbcType=INTEGER},
+            #{username,jdbcType=VARCHAR},
+            #{passwd,jdbcType=VARCHAR},
+            #{email,jdbcType=VARCHAR},
+            #{createTime,jdbcType=TIMESTAMP} )
+    </insert>
+
+    <!--删除用户-->
+    <delete id="deleteUser" parameterType="java.lang.Integer">
+        DELETE FROM t_user WHERE id=#{id}
+    </delete>
+
+    <!--根据不同的条件获取用户-->
+    <!--这里时间的条件不适用,时间应用范围进行查询-->
+    <select id="selectUser" parameterType="com.example.demo03work.entity.User" resultMap="BaseReqult">
+        SELECT <include refid="Base_column_list"/> FROM t_user
+        <where>
+            <if test="id!=null and id!=''">
+                id = #{id}
+            </if>
+            <if test="username!=null and username!=''">
+                AND username LIKE CONCAT(CONCAT('%',#{username}),'%')
+            </if>
+            <if test="passwd!=null and passwd!=''">
+                AND passwd = #{passwd}
+            </if>
+            <if test="email!=null and email!='' ">
+                AND email = #{email}
+            </if>
+            <if test="createTime!=null">
+                AND createTime = #{createTime}
+            </if>
+        </where>
+    </select>
+
+    <!--姓名模糊查询-->
+    <select id="selectUserByName" parameterType="String" resultMap="BaseReqult">
+        SELECT <include refid="Base_column_list"/> FROM t_user
+        WHERE username LIKE CONCAT(CONCAT('%',#{username}),'%')
+    </select>
+
+    <!--时间区间查询-->
+    <select id="selectUserByTime" parameterType="com.example.demo03work.entity.Order" resultMap="BaseReqult">
+        SELECT <include refid="Base_column_list"/> FROM t_user
+        <where>
+            <if test="fd != null">
+                createTime&gt;#{fd,jdbcType=TIMESTAMP}
+            </if>
+            <if test="ed != null">
+                and createTime&lt;#{ed,jdbcType=TIMESTAMP}
+            </if>
+        </where>
+    </select>
+
+    <!--用户信息列表-->
+    <select id="getUserList" parameterType="com.example.demo03work.entity.Order" resultMap="UserListReqult">
+        SELECT <include refid="UserList"/> FROM t_user
+    </select>
+
+    <!--根据用户id更新用户信息-->
+    <!--只修改非空-->
+    <update id="updateUser" parameterType="com.example.demo03work.entity.User">
+        update t_user
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="username != null and username != '' ">
+                username=#{username,jdbcType=VARCHAR},
+            </if>
+            <if test="passwd != null and passwd != '' ">
+                passwd=#{passwd,jdbcType=VARCHAR},
+            </if>
+            <if test="email != null and email != '' ">
+                email = #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                createTime=#{createTime,jdbcType=TIMESTAMP}
+            </if>
+        </trim>
+        where id = #{id}
+    </update>
+</mapper>
