@@ -1,13 +1,10 @@
-package com.example.demo03work.dao
+package com.example.demo03work.service
 
 import com.example.demo03work.entity.RolePower
 import org.apache.ibatis.annotations.Mapper
 
-/**
- * 用户角色操作接口类
- */
 @Mapper
-interface IRolePower {
+interface RolePowerService {
     /**
      * 为角色添加权限
      * @return 是否成功

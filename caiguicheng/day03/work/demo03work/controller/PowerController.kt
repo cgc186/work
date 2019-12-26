@@ -19,7 +19,6 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2
 @Api(tags = ["power"])
 @RestController
 @EnableSwagger2
-@MapperScan("com.example.demo03work.dao")
 class PowerController {
     //使用时候创建
     @Autowired

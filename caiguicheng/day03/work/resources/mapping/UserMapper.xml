@@ -13,9 +13,21 @@
         <result column="createTime" property="createTime" jdbcType="TIMESTAMP"/>
     </resultMap>
 
+    <!--结果集-->
+    <resultMap id="UserListReqult" type="com.example.demo03work.entity.UserData">
+        <id column="username" property="username" jdbcType="VARCHAR"/>
+        <result column="passwd" property="passwd" jdbcType="VARCHAR"/>
+        <result column="email" property="email" jdbcType="VARCHAR"/>
+        <result column="createTime" property="createTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
     <!--搜索内容-->
     <sql id="Base_column_list">
         id,username,passwd,email,createTime
+    </sql>
+
+    <sql id="UserList">
+        username,passwd,email,createTime
     </sql>
 
     <!--插入用户-->
@@ -43,7 +55,7 @@
                 id = #{id}
             </if>
             <if test="username!=null and username!=''">
-                AND username = #{username}
+                AND username LIKE CONCAT(CONCAT('%',#{username}),'%')
             </if>
             <if test="passwd!=null and passwd!=''">
                 AND passwd = #{passwd}
@@ -55,6 +67,30 @@
                 AND createTime = #{createTime}
             </if>
         </where>
+    </select>
+
+    <!--姓名模糊查询-->
+    <select id="selectUserByName" parameterType="String" resultMap="BaseReqult">
+        SELECT <include refid="Base_column_list"/> FROM t_user
+        WHERE username LIKE CONCAT(CONCAT('%',#{username}),'%')
+    </select>
+
+    <!--时间区间查询-->
+    <select id="selectUserByTime" parameterType="com.example.demo03work.entity.Order" resultMap="BaseReqult">
+        SELECT <include refid="Base_column_list"/> FROM t_user
+        <where>
+            <if test="fd != null">
+                createTime&gt;#{fd,jdbcType=TIMESTAMP}
+            </if>
+            <if test="ed != null">
+                and createTime&lt;#{ed,jdbcType=TIMESTAMP}
+            </if>
+        </where>
+    </select>
+
+    <!--用户信息列表-->
+    <select id="getUserList" parameterType="com.example.demo03work.entity.Order" resultMap="UserListReqult">
+        SELECT <include refid="UserList"/> FROM t_user
     </select>
 
     <!--根据用户id更新用户信息-->

@@ -1,7 +1,10 @@
 package com.example.demo03work.service
 
+import com.example.demo03work.entity.Order
 import com.example.demo03work.entity.User
+import com.example.demo03work.entity.UserData
 import org.apache.ibatis.annotations.Mapper
+import java.util.*
 
 @Mapper
 interface UserService {
@@ -23,6 +26,24 @@ interface UserService {
      * @return 用户列表
      */
     fun selectUser(user:User):List<User>
+
+    /**
+     * 姓名模糊查询
+     * @return 用户列表
+     */
+    fun selectUserByName(name: String): List<User>
+
+    /**
+     * 时间区间查询
+     * @return 用户列表
+     */
+    fun selectUserByTime(time: Order): List<User>
+
+    /**
+     * 显示列表
+     * @return 用户列表
+     */
+    fun getUserList(): List<UserData>
 
     /**
      * 删除用户

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.example.demo03work.dao.IUserRole">
+    <!--结果集-->
+    <resultMap id="BaseReqult" type="com.example.demo03work.entity.UserRole">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="uid" property="uid" jdbcType="INTEGER"/>
+        <result column="rid" property="rid" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--搜索内容-->
+    <sql id="Base_column_list">
+        id,uid,rid
+    </sql>
+
+    <!--插入角色-->
+    <insert id="insertUserRole" parameterType="com.example.demo03work.entity.UserRole">
+        INSERT INTO t_user_role(id,uid,rid)
+        VALUES (
+            #{id,jdbcType=INTEGER},
+            #{uid,jdbcType=INTEGER},
+            #{rid,jdbcType=INTEGER})
+    </insert>
+
+    <!--删除角色-->
+    <delete id="deleteUserRole" parameterType="com.example.demo03work.entity.UserRole">
+        DELETE FROM t_user_role WHERE uid = #{uid} AND rid = #{rid}
+    </delete>
+
+    <!--根据不同的条件获取权限列表-->
+    <select id="selectUserRole" parameterType="com.example.demo03work.entity.UserRole" resultMap="BaseReqult">
+        SELECT <include refid="Base_column_list"/> FROM t_user_role
+        <where>
+            <if test="id!=null and id!=''">
+                id = #{id}
+            </if>
+            <if test="uid!=null and uid!=''">
+                AND uid = #{uid}
+            </if>
+            <if test="rid!=null and rid!=''">
+                AND rid = #{rid}
+            </if>
+        </where>
+    </select>
+
+    <!--根据id更新权限信息-->
+    <!--只修改非空-->
+    <update id="updateUserRole" parameterType="com.example.demo03work.entity.UserRole">
+        update t_user_role
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="uid != null and uid != '' ">
+                uid=#{uid,jdbcType=INTEGER},
+            </if>
+            <if test="rid != null and rid != '' ">
+                rid=#{rid,jdbcType=INTEGER},
+            </if>
+        </trim>
+        where id = #{id}
+    </update>
+</mapper>

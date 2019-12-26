@@ -1,14 +1,11 @@
-package com.example.demo03work.dao
+package com.example.demo03work.service
 
 import com.example.demo03work.entity.RolePower
 import com.example.demo03work.entity.UserRole
 import org.apache.ibatis.annotations.Mapper
 
-/**
- * 角色权限操作接口类
- */
 @Mapper
-interface IUserRole {
+interface UserRoleService {
     /**
      * 为用户添加角色
      * @return 是否成功
