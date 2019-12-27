@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>websocket测试一</title>
+</head>
+<body>
+<h3>webSocket测试单页面加载及推送</h3>
+<br/>
+<input id="text" type="text">
+<button onclick="send()">发送</button>
+&nbsp;&nbsp;&nbsp;
+<button onclick="clos()">关闭</button>
+<br/>
+<hr/>
+<div id="message"></div>
+</body>
+<script>
+    let webSocket=null;
+    if ("WebSocket" in window){
+        webSocket=new WebSocket("ws://127.0.0.1:8080/websocket/1");
+    }else {
+        alert("浏览器不支持webSocket！");
+    }
+
+
+    function setMessageInHtml(message){
+        document.getElementById("message").innerText+=message;
+    }
+
+
+    webSocket.onopen=function () {
+        console.log("发送成功");
+        setMessageInHtml("con success!")
+    };
+
+
+    function send() {
+        let msg=document.getElementById("text").value;
+        //alert(msg);
+        webSocket.send(msg);
+    }
+
+
+    //刷新div
+    webSocket.onmessage=function (event) {
+        setMessageInHtml(event.data);
+    };
+
+    //关闭按钮调用函数
+    function clos() {
+        webSocket.close(3000, "强制关闭");
+    }
+
+    webSocket.onclose = function () {
+        setMessageInHtml("\nclose websocket!");
+    };
+    window.onbeforeunload = function () {
+        clos();
+    }
+</script>
+</html>
