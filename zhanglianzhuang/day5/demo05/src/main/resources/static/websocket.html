@@ -2,15 +2,15 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>蔡贵成测试一</title>
+    <title>测试一</title>
 </head>
 <body>
     <h3>webSocket测试单页面加载及推送</h3>
     <br/>
     <input id="text" type="text">
-    <button onclick="send()">点击看蔡贵成洗澡</button>
+    <button onclick="send()">发送</button>
     &nbsp;&nbsp;&nbsp;&nbsp;
-    <button onclick="clo()">点击电击蔡贵成</button>
+    <button onclick="clo()">关闭</button>
     <br/>
     <hr/>
     <div id="message"></div>
@@ -28,7 +28,7 @@
         }
         webSocket.onopen=function () {
             console.log("发送成功");
-            setMessageInHtml("con sucess")
+            setMessageInHtml("con success")
         };
         function send() {
             let msg=document.getElementById("text").value;
