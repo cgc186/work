@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>布局</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
+    <link rel="stylesheet" href="../command/bootstrap-4.4.1/css/bootstrap.min.css">
+    <script src="../command/jquery/jquery-3.4.1.min.js"></script>
+    <script src="../command/bootstrap-4.4.1/js/bootstrap.min.js"></script>
+    <script src="../command/bootstrap-4.4.1/js/bootstrap.bundle.min.js"></script>
+
+</head>
+<body>
+    <h1>bootstrap简单入门</h1>
+    <div class="container-fluid">
+        <h1>第一个bootstrap布局</h1>
+        <h2>一下为布局内容</h2>
+        <!--
+            col-:所有设备
+            col-sm-:平板
+            col-md-:电脑
+            col-lg-:大屏
+            col-xl-:超大屏
+        -->
+        <div class="row">
+            <div class="col-md-3 col-lg-3">
+                <p>我占用了三个栅格</p>
+            </div>
+            <div class="col-md-9 col-lg-9">
+                <p>我占用了九个栅格</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-5">
+                <p>我占用五个栅格</p>
+            </div>
+            <div class="col-md-5 offset-5">
+                <p>我占用五个栅格,并设置了五个偏移量</p>
+            </div>
+        </div>
+    </div>
+<!--    <iframe width="960" height="720" src="https://www.kantarworldpanel.com/cn/smartphone-os-market-share/" frameborder="0"></iframe>-->
+</body>
+</html>
