@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>布局</title>
+    <meta name="viewport" content="width=device-width.initial-scale=1.shrink-to-fit=no">
+    <link rel="stylsheet" href="../command/bootstrap-4.3.1/css/bootstrap-grid.min.css">
+    <script src="../command/jquery/dist/jquery.min.js"></script>
+    <script src="../command/bootstrap-4.3.1/js/bootstrap.min.js"></script>
+    <script src="../command/bootstrap-4.3.1/js/bootstrap.bundle.min.js"></script>
+
+</head>
+<body>
+      <h1>第一个bootstrap布局</h1>
+      <h2>以下内容为布局内容</h2>
+      <!--
+           col-：所有的设备
+           col-sm-：平板
+           col-md-：电脑
+           col-lg-：大屏
+           col-xl：超大屏
+       -->
+<div class="row">
+    <div class="col-sm-3 col-md-3 col-lg-3">
+      <p>我是占用3个栅栏</p>
+    </div>
+        <div class="col-sm-9 col-md-9 col-lg-9">
+            <p>我是占用9个栅栏</p>
+        </div>
+    </div>
+        <div class="row">
+            <div class="col-md-5">
+                <p>我是占用5个栅栏</p>
+            </div>
+            <div class="col-md-5 offset-ma-5">
+                <p>我是占用5个栅栏并设置偏移量为5个栅栏</p>
+            </div>
+        </div>
+
+</body>
+</html>
